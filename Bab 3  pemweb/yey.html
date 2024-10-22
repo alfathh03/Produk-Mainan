@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komo Toys</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            background-color: hsl(209, 93%, 48%);
+        }
+        .left-section, .right-section {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .left-section {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .left-section h1 {
+            color: #f7f4fa;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .right-section {
+            background: linear-gradient(135deg, #1E90FF 0%, #87CEFA 100%);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .right-section h2 {
+            color: #FFFFFF;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .input-container, .button-container {
+            width: 80%;
+            margin-bottom: 20px;
+        }
+        .input-container input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            color: #4B0082;
+            background: #D3D3D3;
+        }
+        .input-container input::placeholder {
+            color: #4B0082;
+        }
+        .button-container button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            color: #4B0082;
+            background: #00CED1;
+            cursor: pointer;
+        }
+        .button-container button:hover {
+            background: #20B2AA;
+        }
+        .icon {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+        }
+        .icon-robot {
+            top: 20px;
+            left: 20px;
+        }
+        .icon-car {
+            top: 20px;
+            right: 20px;
+        }
+        .icon-bunny {
+            bottom: 20px;
+            right: 20px;
+        }
+        .icon-duck {
+            bottom: 20px;
+            left: 20px;
+        }
+        .icon-bot {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .success-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 255, 0, 0.8);
+            text-align: center;
+            padding: 20px;
+            font-size: 1.5em;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .success-icon {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-section">
+        <img alt="Robot icon" class="icon icon-robot" src="https://storage.googleapis.com/a1aa/image/AOJUNlljvqJIJJzPqfbM0wTMy5V9etvbUxPJLun1I6e6DkKnA.jpg">
+        <h1>Komo Toys</h1>
+        <img alt="Person holding a toy figure" src="https://storage.googleapis.com/a1aa/image/bpPfVjCeiWu910RPpD0R5vSxJhnDfEzRnWb4KdRBRMa5DkKnA.jpg" style="width: 400px; height: 600px;">
+    </div>
+    <div class="right-section">
+        <img alt="Car icon" class="icon icon-car" src="https://storage.googleapis.com/a1aa/image/fpAzkB45k3WGXyX45SiRtPwdGGHCIAnFKIeEsuLRI2E5BSlTA.jpg">
+        <h2>Buat Akun Komo</h2>
+        <div class="input-container">
+            <input id="email" placeholder="Email" type="text">
+        </div>
+        <div class="input-container">
+            <input id="username" placeholder="Username" type="text">
+        </div>
+        <div class="input-container">
+            <input id="password" placeholder="Password" type="password">
+        </div>
+        <div class="button-container">
+            <button onclick="createAccount()">Buat Akun</button>
+        </div>
+        <img alt="Bunny icon" class="icon icon-bunny" src="https://storage.googleapis.com/a1aa/image/ZVhXcZPiowIYDpUNHbZIcnELBYECfsNNeLUDGwR2rIV7BSlTA.jpg">
+        <img alt="Duck icon" class="icon icon-duck" src="https://storage.googleapis.com/a1aa/image/feeGuwlpffW8vjuHFh0zvvolzED9gADoeqfkexZQzYjU4BSlTA.jpg">
+        <img alt="Robot icon" class="icon icon-bot" src="https://storage.googleapis.com/a1aa/image/AOJUNlljvqJIJJzPqfbM0wTMy5V9etvbUxPJLun1I6e6DkKnA.jpg">
+    </div>
+
+    <script>
+        function createAccount() {
+            // Get input values
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simple validation
+            if (email === "" || username === "" || password === "") {
+                alert("All fields are required!");
+                return;
+            }
+
+            // Create success message container
+            const successContainer = document.createElement('div');
+            successContainer.classList.add('success-container');
+
+            // Create success message text
+            const successMessage = document.createElement('span');
+            successMessage.textContent = 'Success! Your account has been created.';
+
+            // Create success icon
+            const successIcon = document.createElement('img');
+            successIcon.src = "centang.jpeg";
+            successIcon.alt = "Checkmark icon";
+            successIcon.classList.add('success-icon');
+
+            // Append text and icon to the success container
+            successContainer.appendChild(successIcon);
+            successContainer.appendChild(successMessage);
+
+            // Add the success message to the top of the body
+            document.body.prepend(successContainer);
+        }
+    </script>
+</body>
+</html>
