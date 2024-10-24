@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komo Toys - Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #3a3f51;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #11d177;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            color: #11d177;
+        }
+        .sidebar ul li {
+            padding: 15px 20px;
+            cursor: pointer;
+            color: #11d177;
+        }
+        .sidebar ul li:hover, .sidebar ul li.active {
+            background-color: #4a4f63;
+            color: #11d177;
+        }
+        .sidebar ul li i {
+            margin-right: 10px;
+            color: #11d177;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            color: #11d177;
+        }
+        .header {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header i {
+            font-size: 24px;
+            color: #11d177;
+        }
+        .header .user {
+            display: flex;
+            align-items: center;
+        }
+        .header .user img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+        }
+        .breadcrumb {
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: #11d177;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+        .btn-add i {
+            margin-right: 5px;
+        }
+        .btn-add:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .text-red {
+            color: red;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #0000FF; /* Warna font biru */
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .form-group input[type="file"] {
+            padding: 5px;
+        }
+        .form-group button {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #eceaec;
+        }
+        .sidebar ul li a {
+            color: white; /* Mengubah warna teks link menjadi putih */
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Komo Toys</h2>
+        <ul>
+            <li>
+                <a href="index.html" class="anafbar"><i class="fas fa-globe"></i>Website</a>
+            </li>
+            <li><a href="#"><i class="fas fa-user"></i>User</a></li>
+            <li class="active"><a href="#"><i class="fas fa-box"></i>Stok Barang</a></li>
+            <li><a href="admin.html" class="anafbar"><i class="fas fa-shopping-cart"></i>Pesanan</a></li>
+            <li><a href="#"><i class="fas fa-users"></i>Menu User</a></li>
+            <li><a href="#"><i class="fas fa-key"></i>Data Login</a></li>
+            <li><a href="#"><i class="fas fa-cogs"></i>Setting Website</a></li>
+            <li><a href="#"><i class="fas fa-sliders-h"></i>Layout Setting</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <div class="role-manager">Role Manager</div>
+            <div class="user-profile">
+                <i class="fas fa-cog"></i>
+                <img alt="User Profile Picture" height="40" src="https://storage.googleapis.com/a1aa/image/xhWyDIUAZiaPPZ7uSOZUQov2Y2dfU5G4w5MjZvwIM6P2MqyJA.jpg" width="40"/>
+            </div>
+        </div>
+        <div class="content">
+            <h3>Stok Barang</h3>
+            <button class="btn-add" onclick="document.getElementById('addProductForm').style.display='block'">
+                <i class="fas fa-plus"></i>Tambah Barang
+            </button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Barang</th>
+                        <th>Gambar</th>
+                        <th>Stok</th>
+                    </tr>
+                </thead>
+                <tbody id="product-table-body">
+                    <!-- Produk akan ditambahkan di sini -->
+                </tbody>
+            </table>
+            <div id="addProductForm" style="display:none; margin-top: 20px;">
+                <h3>Tambah Barang</h3>
+                <div class="form-group">
+                    <label for="productName">Nama Barang</label>
+                    <input id="productName" name="productName" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="productImage">Gambar Barang</label>
+                    <input id="productImage" name="productImage" type="file"/>
+                </div>
+                <div class="form-group">
+                    <label for="productStock">Stok Barang</label>
+                    <input id="productStock" name="productStock" type="number"/>
+                </div>
+                <div class="form-group">
+                    <button onclick="addProduct()">Tambah</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ambil data produk dari Local Storage saat halaman dimuat
+        window.onload = function() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            products.forEach((product, index) => {
+                addRowToTable(product.name, product.image, product.stock, index + 1);
+            });
+        };
+
+        function addRowToTable(name, image, stock, index) {
+            const tableBody = document.getElementById('product-table-body');
+            const newRow = tableBody.insertRow();
+
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            const cell4 = newRow.insertCell(3);
+
+            cell1.innerHTML = index;
+            cell2.innerHTML = name;
+            cell3.innerHTML = `<img src="${image}" class="product-image" alt="Gambar ${name}">`;
+            cell4.innerHTML = stock;
+        }
+
+        async function addProduct() {
+            const productName = document.getElementById('productName').value;
+            const productImage = document.getElementById('productImage').files[0];
+            const productStock = document.getElementById('productStock').value;
+
+            if (productName && productImage && productStock) {
+                try {
+                    const imageUrl = await uploadImage(productImage); // Simulate an image upload
+                    const product = { name: productName, image: imageUrl, stock: productStock };
+
+                    // Simpan ke Local Storage
+                    const products = JSON.parse(localStorage.getItem('products')) || [];
+                    products.push(product);
+                    localStorage.setItem('products', JSON.stringify(products));
+
+                    // Tambahkan produk ke tabel
+                    addRowToTable(product.name, imageUrl, product.stock, products.length);
+
+                    // Reset form
+                    document.getElementById('addProductForm').style.display = 'none';
+                    document.getElementById('productName').value = '';
+                    document.getElementById('productImage').value = '';
+                    document.getElementById('productStock').value = '';
+                } catch (error) {
+                    alert('Error adding product: ' + error.message);
+                }
+            } else {
+                alert('Please fill all fields');
+            }
+        }
+
+        function uploadImage(imageFile) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    resolve(e.target.result); // Simulate successful image upload by resolving with the image URL
+                };
+                reader.onerror = function (error) {
+                    reject(new Error('Failed to upload image'));
+                };
+                reader.readAsDataURL(imageFile);
+            });
+        }
+    </script>
+</body>
+</html>

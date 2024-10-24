@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komo Toys - Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #3a3f51;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #11d177;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            color: #11d177;
+        }
+        .sidebar ul li {
+            padding: 15px 20px;
+            cursor: pointer;
+            color: #11d177;
+        }
+        .sidebar ul li:hover, .sidebar ul li.active {
+            background-color: #4a4f63;
+            color: #11d177;
+        }
+        .sidebar ul li i {
+            margin-right: 10px;
+            color: #11d177;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            color: #11d177;
+        }
+        .header {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header i {
+            font-size: 24px;
+            color: #11d177;
+        }
+        .header .user {
+            display: flex;
+            align-items: center;
+        }
+        .header .user img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+        }
+        .breadcrumb {
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: #11d177;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+        .btn-add i {
+            margin-right: 5px;
+        }
+        .btn-add:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .text-red {
+            color: red;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #0000FF; /* Warna font biru */
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .form-group button {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #eceaec;
+        }
+
+        .popup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .popup-container.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            animation: slideIn 0.5s ease forwards; /* Menambahkan animasi slide */
+        }
+        .popup-box h3 {
+            margin-top: 0;
+            color: #3a3f51;
+        }
+        .popup-box .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        .popup-box button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .popup-box button:hover {
+            background-color: #218838;
+        }
+        .close-btn {
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .close-btn:hover {
+            background-color: #5a188a;
+        }
+
+        .confirmation-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .confirmation-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .confirmation-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>Komo Toys</h1>
+        <ul>
+            <li><i class="fas fa-globe"></i><a href="index.html" class="anafbar">Website </a></li>
+            <li><i class="fas fa-users"></i>User</li>
+            <li><i class="fas fa-cubes"></i><a href="kategori.html" class="anafbar">Stok Barang </a></li>
+            <li class="active"><i class="fas fa-briefcase"></i>Pesanan</li>
+            <li><i class="fas fa-bars"></i>Menu User</li>
+            <li><i class="fas fa-link"></i>Data Login</li>
+            <li><i class="fas fa-cog"></i>Setting Website</li>
+            <li><i class="fas fa-th-large"></i>Layout Setting</li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="header">
+            <i class="fas fa-bars"></i>
+            <h2>Dashboard Admin</h2>
+            <div class="user">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <span>Admin</span>
+            </div>
+        </div>
+        <div class="breadcrumb">
+            <a href="#">Home</a> > <span>Pesanan</span>
+        </div>
+        <div class="card">
+            <h2>Data Pesanan</h2>
+            <button class="btn-add" id="edit-order-button"><i class="fas fa-plus"></i>Tambah Pesanan</button>
+            <table id="order-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Nama</th>
+                        <th>Produk</th>
+                        <th>Alamat</th>
+                        <th>Kuantitas</th>
+                        <th>Harga</th>
+                        <th>Status</th>
+                        <th>Aksi</th> <!-- Kolom untuk aksi hapus -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>Boneka</td>
+                        <td>Jl. Melati No. 10</td>
+                        <td>2</td>
+                        <td>100000</td>
+                        <td><span class="text-red">Belum Dikirim</span></td>
+                        <td><button class="btn-delete">Hapus</button></td> <!-- Tombol hapus -->
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>Mobil Remote</td>
+                        <td>Jl. Mawar No. 5</td>
+                        <td>1</td>
+                        <td>250000</td>
+                        <td><span class="text-red">Belum Dikirim</span></td>
+                        <td><button class="btn-delete">Hapus</button></td> <!-- Tombol hapus -->
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tom Brown</td>
+                        <td>Puzzle</td>
+                        <td>Jl. Anggrek No. 15</td>
+                        <td>3</td>
+                        <td>150000</td>
+                        <td><span class="text-red">Belum Dikirim</span></td>
+                        <td><button class="btn-delete">Hapus</button></td> <!-- Tombol hapus -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Popup untuk menambahkan pesanan -->
+    <div class="popup-container" id="popup-container">
+        <div class="popup-box">
+            <h3>Edit Pesanan</h3>
+            <div class="form-group">
+                <label for="orderName">Nama:</label>
+                <input type="text" id="orderName" placeholder="Masukkan Nama"/>
+            </div>
+            <div class="form-group">
+                <label for="orderProduct">Produk:</label>
+                <input type="text" id="orderProduct" placeholder="Masukkan Nama Produk"/>
+            </div>
+            <div class="form-group">
+                <label for="orderAddress">Alamat:</label>
+                <input type="text" id="orderAddress" placeholder="Masukkan Alamat"/>
+            </div>
+            <div class="form-group">
+                <label for="orderQuantity">Kuantitas:</label>
+                <input type="number" id="orderQuantity" placeholder="Masukkan Kuantitas"/>
+            </div>
+            <div class="form-group">
+                <label for="orderPrice">Harga:</label>
+                <input type="number" id="orderPrice" placeholder="Masukkan Harga"/>
+            </div>
+            <button class="close-btn" id="close-popup">Tutup</button>
+            <button id="submit-order">Simpan</button>
+        </div>
+    </div>
+
+    <!-- Popup konfirmasi setelah menambah pesanan -->
+    <div class="popup-container" id="confirmation-popup">
+        <div class="popup-box">
+            <h3>Pesanan Ditambahkan!</h3>
+            <p>Pesanan baru telah berhasil ditambahkan.</p>
+            <button class="close-btn" id="close-confirmation">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Popup konfirmasi untuk hapus pesanan -->
+    <div class="confirmation-popup" id="delete-confirmation-popup">
+        <div class="confirmation-box">
+            <h3>Hapus Pesanan</h3>
+            <p>Apakah Anda yakin ingin menghapus pesanan ini?</p>
+            <button id="confirm-delete">Ya</button>
+            <button id="cancel-delete">Tidak</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('edit-order-button').onclick = function() {
+            document.getElementById('popup-container').classList.add('active');
+        };
+
+        document.getElementById('close-popup').onclick = function() {
+            document.getElementById('popup-container').classList.remove('active');
+        };
+
+        document.getElementById('submit-order').onclick = function() {
+            const name = document.getElementById('orderName').value;
+            const product = document.getElementById('orderProduct').value;
+            const address = document.getElementById('orderAddress').value;
+            const quantity = document.getElementById('orderQuantity').value;
+            const price = document.getElementById('orderPrice').value;
+
+            if (name && product && address && quantity && price) {
+                const table = document.getElementById('order-table').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${table.rows.length + 1}</td>
+                    <td>${name}</td>
+                    <td>${product}</td>
+                    <td>${address}</td>
+                    <td>${quantity}</td>
+                    <td>${price}</td>
+                    <td><span class="text-red">Belum Dikirim</span></td>
+                    <td><button class="btn-delete">Hapus</button></td> <!-- Tombol hapus untuk pesanan baru -->
+                `;
+
+                // Tampilkan pop-up konfirmasi setelah menambah pesanan
+                document.getElementById('confirmation-popup').classList.add('active');
+
+                // Reset input
+                document.getElementById('popup-container').classList.remove('active');
+                document.getElementById('orderName').value = '';
+                document.getElementById('orderProduct').value = '';
+                document.getElementById('orderAddress').value = '';
+                document.getElementById('orderQuantity').value = '';
+                document.getElementById('orderPrice').value = '';
+            } else {
+                alert('Semua field harus diisi!');
+            }
+        };
+
+        // Tutup pop-up konfirmasi
+        document.getElementById('close-confirmation').onclick = function() {
+            document.getElementById('confirmation-popup').classList.remove('active');
+        };
+
+        // Menghapus pesanan
+        let rowToDelete;
+        document.getElementById('order-table').addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn-delete')) {
+                rowToDelete = event.target.closest('tr'); // Simpan referensi baris yang ingin dihapus
+                document.getElementById('delete-confirmation-popup').classList.add('active');
+            }
+        });
+
+        // Konfirmasi hapus pesanan
+        document.getElementById('confirm-delete').onclick = function() {
+            if (rowToDelete) {
+                rowToDelete.remove(); // Hapus baris yang terpilih
+            }
+            document.getElementById('delete-confirmation-popup').classList.remove('active');
+        };
+
+        // Batalkan penghapusan
+        document.getElementById('cancel-delete').onclick = function() {
+            document.getElementById('delete-confirmation-popup').classList.remove('active');
+        };
+    </script>
+</body>
+</html>
